@@ -1,11 +1,9 @@
 const Total = (props) => {
-    let totalExercises = 0;
-    props.total.forEach(part => {
-        totalExercises += part.exercises;
-    })
+    const total = props.total.reduce((accumulator, item) => {return accumulator += item.exercises}, 0)
+
     return(
         <div>
-          <p> Total of {totalExercises} exercises</p>
+          <p> Total of {total} exercises</p>
         </div>
       )}
 export default Total
