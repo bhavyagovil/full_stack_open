@@ -53,6 +53,8 @@ const App = () => {
   const handleNewPersonNumber = (event) => {setNewNumber(event.target.value)}
   const handleFilter = (event) => {setFilter(event.target.value)} 
 
+
+
   const deletePerson = id => {
     if(window.confirm(`Delete ${id} ?`)){
       personService
@@ -62,6 +64,18 @@ const App = () => {
     }
   } 
 
+
+const updatePerson = id => {
+  const person = persons.find(p => p.id ===id)
+  const changedPerson = {...person, number: newNumber}
+
+  personService
+  .update(id, changedPerson)
+  .then(returnedPerson => {
+    setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+  })
+}
+
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -69,14 +83,14 @@ const App = () => {
       number: newNumber,
       id: newName
     }
-    if (persons.some(person => person.name === newName)){
-      alert(`${newName} is already added to phonebook`)
-    } else {
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-      }
 
+    const existingPerson = persons.find(person => person.name === newName)
+
+    if (existingPerson){
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        updatePerson(existingPerson.id)
+      }
+    } else{
       personService
       .create(personObject)
       .then(returnedPersons => {
@@ -84,6 +98,7 @@ const App = () => {
        setNewName('')
        setNewNumber('')
       })
+    }
   }
 
   const showPersons = filter === '' ? persons : persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
@@ -95,7 +110,8 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm submitPerson={addPerson} name={newName} number={newNumber} onNameChange={handleNewPersonName} onNumChange={handleNewPersonNumber}/>
       <h2>Numbers</h2>
-      <div>{showPersons.map(person => <Persons obj={person} removePerson={() => deletePerson(person.id)}/>)}</div>
+      <div>{showPersons.map(person => 
+      <Persons obj={person} removePerson={() => deletePerson(person.id)}/>)}</div>
     </div>
   )
 }
