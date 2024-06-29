@@ -1,44 +1,19 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
+      "id": "Mary Abrova",
+      "name": "Mary Abrova",
+      "number": "3092667"
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
+      "id": "Sarah May",
+      "name": "Sarah May",
+      "number": "298533"
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": "4"
-    },
-    {
-      "id": "Ara Vita",
-      "name": "Ara Vita",
-      "number": "47319074"
-    },
-    {
-      "id": "65ab",
-      "name": "Johhn Yarros",
-      "number": "2094755"
-    },
-    {
-      "id": 7,
-      "name": "Mary Madga",
-      "number": "4835953"
-    },
-    {
-      "id": "Anna de La cruz",
-      "name": "Anna de La cruz",
-      "number": "23807516"
+      "id": "Yuni Gurt",
+      "name": "Yuni Gurt",
+      "number": "07445128"
     }
   ]
 }
