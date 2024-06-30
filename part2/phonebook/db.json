@@ -1,29 +1,19 @@
 {
   "persons": [
     {
-      "id": "Yuni Gurt",
-      "name": "Yuni Gurt",
-      "number": "230017"
-    },
-    {
       "id": "Mary Abrova",
       "name": "Mary Abrova",
       "number": "134346363"
     },
     {
+      "id": "Cosmos Green",
+      "name": "Cosmos Green",
+      "number": "637480214"
+    },
+    {
       "id": "Arto Hellas",
       "name": "Arto Hellas",
-      "number": "0023-135"
-    },
-    {
-      "id": "Saturn Derr",
-      "name": "Saturn Derr",
-      "number": "24627"
-    },
-    {
-      "id": "Billie Ures",
-      "name": "Billie Ures",
-      "number": "2307749593"
+      "number": "245-3855"
     }
   ]
 }

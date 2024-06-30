@@ -14,6 +14,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
+ 
 
 
  useEffect(() => {
@@ -39,12 +40,12 @@ const App = () => {
         .then(deletedPersons => (deletedPersons)) 
         setPersons(persons.filter(person => person.id !== id))
         setTimeout(() => {
-          setMessage(`Deleted ${id}`)
+          setMessage({ text: `Deleted ${id}`, type: "success"})
         }, 2)
-  
+
     }
   } 
-
+  
 
 /* UPDATE PERSON */
 const updatePerson = id => {
@@ -56,6 +57,12 @@ const updatePerson = id => {
   .then(returnedPerson => {
     setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
   })
+  .catch(error => {
+    console.log(error.message)
+    setMessage({ text: `${newName} has already been removed from the server`, type: "error"})
+    setTimeout(() => setMessage(null), 5000)
+  } )
+  
 }
 
 
@@ -72,7 +79,7 @@ const updatePerson = id => {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
         updatePerson(existingPerson.id)
         setTimeout(() => {
-          setMessage(`Updated ${newName}`)
+          setMessage({ text: `Updated ${newName}`, type: "success"})
         }, 2)
       }
     } else{
@@ -83,7 +90,7 @@ const updatePerson = id => {
        setNewName('')
        setNewNumber('')
        setTimeout(() => {
-        setMessage(`Added ${newName}`)
+        setMessage({ text: `Added ${newName}`, type: "success"})
       }, 2)
       })
     }
@@ -104,7 +111,7 @@ const updatePerson = id => {
       <PersonForm submitPerson={addPerson} name={newName} number={newNumber} onNameChange={handleNewPersonName} onNumChange={handleNewPersonNumber}/>
       <h2>Numbers</h2>
       <div>{showPersons.map(person => 
-      <Persons obj={person} removePerson={() => deletePerson(person.id)}/>)}</div>
+      <Persons key={person.id} obj={person} removePerson={() => deletePerson(person.id)}/>)}</div>
     </div>
   )
 }
