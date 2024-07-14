@@ -1,5 +1,11 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+
+const Weather = () => {
+
+
+}
 
 const Details = ({ countryToDisplay, showBoolean, buttonClick }) => {
   const flagUrl = countryToDisplay.flags.png
@@ -28,14 +34,14 @@ const Details = ({ countryToDisplay, showBoolean, buttonClick }) => {
 
 const Display = ({ displayCountries, buttonClick, showCountry }) => {
   if (displayCountries.length > 10) {
-    return 'Too many matches, specify another filter';
+    return 'Too many matches, specify another filter'
   } else if (displayCountries.length === 1) {
-    const country = displayCountries[0];
+    const country = displayCountries[0]
     return (
       <div>
         <Details key={country.name.common} countryToDisplay={country} showBoolean={true} buttonClick={buttonClick} />
       </div>
-    );
+    )
   } else {
     return (
       displayCountries.map(country =>
@@ -44,11 +50,11 @@ const Display = ({ displayCountries, buttonClick, showCountry }) => {
           countryToDisplay={country}
           showBoolean={showCountry === country.name.common}
           buttonClick={buttonClick}
-        />
+ />
       )
-    );
+    )
   }
-};
+}
 
 const App = () => {
   const [value, setValue] = useState('')
@@ -68,7 +74,7 @@ const App = () => {
 
   const handleChange = (event) => {
     setValue(event.target.value)
-    setShowCountry(null) // Reset the shown country when the input changes
+    setShowCountry(null) 
   }
 
   const handleButtonClick = (countryName) => {
@@ -85,4 +91,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
