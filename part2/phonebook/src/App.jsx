@@ -6,8 +6,6 @@ import Persons from './components/Persons'
 import Notification from './components/Notification'
 
 
-
-
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -15,7 +13,6 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
  
-
 
  useEffect(() => {
     personService
@@ -53,18 +50,18 @@ const updatePerson = id => {
   const changedPerson = {...person, number: newNumber}
 
   personService
-  .update(id, changedPerson)
+  .update(id, changedPerson, {runValidators: true})
   .then(returnedPerson => {
     setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
   })
   .catch(error => {
     console.log(error.message)
-    setMessage({ text: `${newName} has already been removed from the server`, type: "error"})
+    // setMessage({ text: `${newName} has already been removed from the server`, type: "error"}) 
+    setMessage({ text: error.response.data.error, type: "error"})
     setTimeout(() => setMessage(null), 5000)
   } )
   
 }
-
 
 /* ADD PERSON */
   const addPerson = (event) => {
@@ -92,6 +89,8 @@ const updatePerson = id => {
        setTimeout(() => {
         setMessage({ text: `Added ${newName}`, type: "success"})
       }, 2)
+      }).catch(error => {
+        setMessage({ text: error.response.data.error, type: "error"})
       })
     }
   }

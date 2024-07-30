@@ -1,8 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-
 
 const blogSchema = new mongoose.Schema({
     title: String,
@@ -17,9 +17,8 @@ const Blog = mongoose.model('Blog', blogSchema)
 app.use(cors())
 app.use(express.json())
 
-const mongoUrl = "mongodb+srv://bhavya0836govil:Iamnotmad08@cluster0.izsjxoz.mongodb.net/bloglist?retryWrites=true&w=majority&appName=Cluster0"
+const mongoUrl = process.env.MONGO_URL
 mongoose.connect(mongoUrl)
-
 
 app.get('/api/blogs', (request, response) => {
     Blog
