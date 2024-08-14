@@ -9,3 +9,4 @@ describe('dummy', () => {
         assert.strictEqual(result, 1)
       })
 })
+
