@@ -1,3 +1,5 @@
+
+
 const { test, after, beforeEach} = require('node:test')
 const assert = require('node:assert')
 const Blog = require('../models/blog')
@@ -43,10 +45,43 @@ test('blogs are returned as json', async () => {
 
 test('there are two blogs', async () => {
     const response = await api.get('/api/blogs')
-  
     assert.strictEqual(response.body.length, 2)
+    console.log()
   })
+
+test('every blog post has a unique identifier property named id', async () => {
+  const response = await api.get('/api/blogs')
+  const blogs = response.body
+    blogs.forEach(blog => {
+      assert(blog.id !== undefined)
+    })
+})
+
+test('a valid blogpost can be added', async () => {
+  const newBlog = {
+    _id: "5a422ba71b54a676234d17fb",
+    title: "TDD harms architecture",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    likes: 0,
+    __v: 0
+  }
+
+  await api 
+  .post('/api/blogs')
+  .send(newBlog)
+  .expect(201)
+  .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const content = response.body.map(r => r.title)
+  assert.strictEqual(response.body.length, initialBlogs.length + 1)
+
+  assert(content.includes('TDD harms architecture'))
+
+})
 
   after(async () => {
     await mongoose.connection.close()
   })
+
