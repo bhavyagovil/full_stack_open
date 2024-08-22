@@ -34,7 +34,7 @@ beforeEach(async () => {
     let blogObject = new Blog(initialBlogs[0])
     await blogObject.save()
     blogObject = new Blog(initialBlogs[1])
-    await blogObject.save()
+    await blogObject.save() 
     })
 
 test('blogs are returned as json', async () => {
@@ -135,6 +135,28 @@ test('deletes a blog with status code 204 if id is valid', async () => {
 
   const titles = blogsAtEnd.map(r => r.title)
   assert(!titles.includes(blogToDelete.title))
+})
+
+test('check if a blog is updated', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const blogWithUpdate = {
+    title: blogToUpdate.title,
+    author: blogToUpdate.author,
+    url: blogToUpdate.url,
+    likes: blogToUpdate.likes + 1
+}
+
+await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogWithUpdate)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+const blogsAtEnd = await Blog.find({})
+const updatedBlog = blogsAtEnd[0]
+assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 1)
 })
 
 
