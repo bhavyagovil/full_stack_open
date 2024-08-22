@@ -27,12 +27,20 @@ blogsRouter.get('/', async (request, response) => {
       if (error.name === 'ValidationError') {
         return response.status(400).json({ error: error.message });
       }
-      response.status(500).json(result);
+      response.status(500).json({ error: error.message });
     }
   });
 
   /*  const savedBlog = await blog.save()
     response.status(201).json(savedBlog) */
+
+
+    blogsRouter.delete('/:id', async (request, response) => {
+      await Blog.findByIdAndDelete(request.params.id)
+      response.status(204).end()
+    })
+
+    
 
   module.exports = blogsRouter
 

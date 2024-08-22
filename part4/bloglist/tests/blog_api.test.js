@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 
+const helper = require('./test_helper')
+
 const api = supertest(app)
 
 const initialBlogs = [
@@ -119,8 +121,23 @@ test('fails with status code 400 if url is missing', async () => {
 })
 
 
+test('deletes a blog with status code 204 if id is valid', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+
+  const titles = blogsAtEnd.map(r => r.title)
+  assert(!titles.includes(blogToDelete.title))
+})
+
 
   after(async () => {
     await mongoose.connection.close()
   })
-
