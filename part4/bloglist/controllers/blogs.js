@@ -7,7 +7,7 @@ blogsRouter.get('/', async (request, response) => {
     response.json(blogs)
   })
 
-  blogsRouter.post('/', (request, response, next) => {
+/*   blogsRouter.post('/', (request, response, next) => {
     const blog = new Blog(request.body)
     console.log(Blog)
   
@@ -16,7 +16,20 @@ blogsRouter.get('/', async (request, response) => {
       .then(result => {
         response.status(201).json(result)
       }).catch(err => next(err)) 
-  })
+  }) */
+
+  blogsRouter.post('/', async (request, response) => {
+    try {
+      const blog = new Blog(request.body);
+      const savedBlog = await blog.save();
+      response.status(201).json(savedBlog);
+    } catch (error) {
+      if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message });
+      }
+      response.status(500).json(result);
+    }
+  });
 
   /*  const savedBlog = await blog.save()
     response.status(201).json(savedBlog) */

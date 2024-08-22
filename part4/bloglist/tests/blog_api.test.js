@@ -81,16 +81,43 @@ test('a valid blogpost can be added', async () => {
 
 })
 
-test.only('if likes property missing, default to 0', async () => {
+test('if likes property missing, default to 0', async () => {
   const newBlog = {
     title: "Example",
     author: "Name",
-    url: "http://urlplacehoolder.html"
+    url: "http://urlplaceholder.html"
   }
   const savedBlog = await Blog.create(newBlog);
   assert.strictEqual(savedBlog.likes, 0)
 
 })
+
+test('fails with status code 400 if title is missing', async () => {
+  const newBlog = {
+    author: "Name",
+    url:"http://urlplaceholder.html"
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+})
+
+test('fails with status code 400 if url is missing', async () => {
+  const newBlog = {
+    title: "Example",
+    author: "Name"
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+})
+
 
 
   after(async () => {
