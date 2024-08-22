@@ -81,6 +81,18 @@ test('a valid blogpost can be added', async () => {
 
 })
 
+test.only('if likes property missing, default to 0', async () => {
+  const newBlog = {
+    title: "Example",
+    author: "Name",
+    url: "http://urlplacehoolder.html"
+  }
+  const savedBlog = await Blog.create(newBlog);
+  assert.strictEqual(savedBlog.likes, 0)
+
+})
+
+
   after(async () => {
     await mongoose.connection.close()
   })
